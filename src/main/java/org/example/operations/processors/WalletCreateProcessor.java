@@ -4,9 +4,11 @@ import org.example.service.WalletService;
 import org.example.operations.ConsoleOperationType;
 import org.example.operations.OperationCommandProcessor;
 import org.example.service.UserService;
+import org.springframework.stereotype.Component;
 
 import java.util.Scanner;
 
+@Component
 public class WalletCreateProcessor implements OperationCommandProcessor {
     private final Scanner scanner;
     private final UserService userService;

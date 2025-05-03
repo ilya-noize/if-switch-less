@@ -1,6 +1,7 @@
 package org.example.service;
 
 import org.example.model.User;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,6 +11,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
+@Service
 public class UserServiceImpl implements UserService {
     private final Map<Integer, User> users = new HashMap<>();
     private final Set<String> takenLogins = new HashSet<>();

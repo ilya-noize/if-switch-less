@@ -2,33 +2,46 @@ package org.example.listener;
 
 import org.example.operations.ConsoleOperationType;
 import org.example.operations.OperationCommandProcessor;
+import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
+@Component
 public class OperationConsoleListener {
     private final Scanner scanner;
     private final Map<ConsoleOperationType, OperationCommandProcessor> processors;
 
     public OperationConsoleListener(
             Scanner scanner,
-            Map<ConsoleOperationType, OperationCommandProcessor> processors
+            List<OperationCommandProcessor> commandProcessors
     ) {
         this.scanner = scanner;
-        this.processors = processors;
+        this.processors = commandProcessors
+                .stream()
+                .collect(Collectors.toMap(
+                                OperationCommandProcessor::getOperationType,
+                                processor -> processor
+                        )
+                );
     }
 
     public void listenUpdate() {
         System.out.println("\nPlease type operations:");
-        while (true) {
+        do {
             ConsoleOperationType operationType = listenNextOperation();
+            if (operationType == null) {
+                return;
+            }
             processNextOperation(operationType);
-        }
+        } while (!Thread.currentThread().isInterrupted());
     }
 
     private ConsoleOperationType listenNextOperation() {
         printAllAvailableOperations();
-        while (true) {
+        while (!Thread.currentThread().isInterrupted()) {
             String nextOperation = scanner.nextLine();
             try {
                 return ConsoleOperationType.valueOf(nextOperation);
@@ -36,6 +49,7 @@ public class OperationConsoleListener {
                 System.out.println("No such command found");
             }
         }
+        return null;
     }
 
     private void printAllAvailableOperations() {
@@ -56,7 +70,7 @@ public class OperationConsoleListener {
         System.out.println("Console listener started");
     }
 
-    public void end() {
-        System.out.println("Console listener end listen");
+    public void close() {
+        System.out.println("Console listener closed");
     }
 }
