@@ -1,13 +1,8 @@
 package org.example.config;
 
 import org.example.listener.OperationConsoleListener;
-import org.example.service.UserServiceImpl;
-import org.example.service.WalletService;
 import org.example.operations.ConsoleOperationType;
 import org.example.operations.OperationCommandProcessor;
-import org.example.service.UserService;
-import org.example.service.WalletServiceImpl;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
@@ -40,18 +35,5 @@ public class ApplicationConfiguration {
                         )
                 );
         return new OperationConsoleListener(scanner, operationCommandProcessors);
-    }
-
-    @Bean
-    public WalletService walletService(
-            @Value(value = "${wallet.default-amount}") int defaultAmount,
-            @Value(value = "${wallet.transfer-commission}") double transferCommission
-    ) {
-        return new WalletServiceImpl(defaultAmount, transferCommission);
-    }
-
-    @Bean
-    public UserService userService(WalletService walletService) {
-        return new UserServiceImpl(walletService);
     }
 }

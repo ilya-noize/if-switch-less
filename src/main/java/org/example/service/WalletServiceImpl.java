@@ -3,6 +3,7 @@ package org.example.service;
 import org.example.model.User;
 import org.example.model.Wallet;
 import org.example.model.WalletProperties;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+@Service
 public class WalletServiceImpl implements WalletService {
     private final Map<Integer, Wallet> wallets = new HashMap<>();
     private final WalletProperties walletProperties;
