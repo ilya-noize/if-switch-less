@@ -2,20 +2,30 @@ package org.example.listener;
 
 import org.example.operations.ConsoleOperationType;
 import org.example.operations.OperationCommandProcessor;
+import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
+@Component
 public class OperationConsoleListener {
     private final Scanner scanner;
     private final Map<ConsoleOperationType, OperationCommandProcessor> processors;
 
     public OperationConsoleListener(
             Scanner scanner,
-            Map<ConsoleOperationType, OperationCommandProcessor> processors
+            List<OperationCommandProcessor> commandProcessors
     ) {
         this.scanner = scanner;
-        this.processors = processors;
+        this.processors = commandProcessors
+                .stream()
+                .collect(Collectors.toMap(
+                                OperationCommandProcessor::getOperationType,
+                                processor -> processor
+                        )
+                );
     }
 
     public void listenUpdate() {

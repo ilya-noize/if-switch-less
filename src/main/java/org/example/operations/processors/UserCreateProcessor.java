@@ -4,9 +4,11 @@ import org.example.operations.ConsoleOperationType;
 import org.example.operations.OperationCommandProcessor;
 import org.example.model.User;
 import org.example.service.UserService;
+import org.springframework.stereotype.Component;
 
 import java.util.Scanner;
 
+@Component
 public class UserCreateProcessor implements OperationCommandProcessor {
     private final Scanner scanner;
     private final UserService userService;
