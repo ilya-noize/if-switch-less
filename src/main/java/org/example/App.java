@@ -1,6 +1,5 @@
 package org.example;
 
-import org.example.listener.OperationConsoleListener;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 /**
