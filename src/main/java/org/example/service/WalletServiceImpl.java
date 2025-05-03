@@ -2,6 +2,7 @@ package org.example.service;
 
 import org.example.model.User;
 import org.example.model.Wallet;
+import org.example.model.WalletProperties;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,20 +11,18 @@ import java.util.Map;
 import java.util.Optional;
 
 public class WalletServiceImpl implements WalletService {
-    private final int defaultAmount;
-    private final double transferCommission;
     private final Map<Integer, Wallet> wallets = new HashMap<>();
+    private final WalletProperties walletProperties;
     private int idCounter = 0;
 
-    public WalletServiceImpl(int defaultAmount, double transferCommission) {
-        this.defaultAmount = defaultAmount;
-        this.transferCommission = transferCommission;
+    public WalletServiceImpl(WalletProperties walletProperties) {
+        this.walletProperties = walletProperties;
     }
 
     @Override
     public Wallet create(User user) {
         idCounter++;
-        Wallet wallet = new Wallet(idCounter, user.getId(), defaultAmount);
+        Wallet wallet = new Wallet(idCounter, user.getId(), walletProperties.getDefaultAmount());
         wallets.put(wallet.getId(), wallet);
         return wallet;
     }
@@ -73,7 +72,7 @@ public class WalletServiceImpl implements WalletService {
         amountNotMoreBalance(amountToTransfer, fromWallet);
         int totalAmountToDeposit = toWallet.getUserId() == fromWallet.getUserId()
                 ? amountToTransfer
-                : (int) (amountToTransfer * (1 - transferCommission));
+                : (int) (amountToTransfer * (1 - walletProperties.getTransferCommission()));
         fromWallet.debitingMoney(amountToTransfer);
         toWallet.depositingMoney(totalAmountToDeposit);
     }
