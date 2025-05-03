@@ -30,15 +30,18 @@ public class OperationConsoleListener {
 
     public void listenUpdate() {
         System.out.println("\nPlease type operations:");
-        while (true) {
+        do {
             ConsoleOperationType operationType = listenNextOperation();
+            if (operationType == null) {
+                return;
+            }
             processNextOperation(operationType);
-        }
+        } while (!Thread.currentThread().isInterrupted());
     }
 
     private ConsoleOperationType listenNextOperation() {
         printAllAvailableOperations();
-        while (true) {
+        while (!Thread.currentThread().isInterrupted()) {
             String nextOperation = scanner.nextLine();
             try {
                 return ConsoleOperationType.valueOf(nextOperation);
@@ -46,6 +49,7 @@ public class OperationConsoleListener {
                 System.out.println("No such command found");
             }
         }
+        return null;
     }
 
     private void printAllAvailableOperations() {
@@ -66,7 +70,7 @@ public class OperationConsoleListener {
         System.out.println("Console listener started");
     }
 
-    public void end() {
-        System.out.println("Console listener end listen");
+    public void close() {
+        System.out.println("Console listener closed");
     }
 }
