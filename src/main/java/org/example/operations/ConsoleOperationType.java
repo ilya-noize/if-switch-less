@@ -28,5 +28,9 @@ public enum ConsoleOperationType {
     /**
      * Перемещение между кошельками пользователя
      */
-    WALLET_WITHDRAW
+    WALLET_WITHDRAW,
+    /**
+     * Выход
+     */
+    EXIT
 }

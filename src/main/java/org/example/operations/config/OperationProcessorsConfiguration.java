@@ -1,5 +1,6 @@
 package org.example.operations.config;
 
+import org.example.operations.processors.ExitProcessor;
 import org.example.operations.processors.UserCreateProcessor;
 import org.example.operations.processors.UserShowAllProcessor;
 import org.example.operations.processors.WalletCloseProcessor;
@@ -50,5 +51,10 @@ public class OperationProcessorsConfiguration {
     @Bean
     public WalletCloseProcessor closeWalletProcessor(Scanner scanner, UserService userService, WalletService walletService) {
         return new WalletCloseProcessor(scanner, userService, walletService);
+    }
+
+    @Bean
+    public ExitProcessor exitProcessor() {
+        return new ExitProcessor();
     }
 }
